@@ -1,16 +1,20 @@
-# WordPress Starter Theme
+# WordPress Starter Theme - An updated version for my workflow
+
+I've created this fork to customize this starter theme to my personal workflow. I've removed some of the node packages, like Imagemin, Browsersync, rsync and spritesmith, as I don't use them. Added Bootstrap and Font Awesome to it, as well as some of my own mixins and wordpress filters. Sometime in the future I might add a complete description of the changes I made.
+
+## Below is the original README by Matt Banks
 
 Version: 4.2.2
 
-## Author:
+### Author:
 
 Matt Banks ( [@mattbanks](http://twitter.com/mattbanks) / [collectivthkg.com](http://collectivthkg.com) / [mattbanks.me](http://www.mattbanks.me) )
 
-## Summary
+### Summary
 
 WordPress Starter Theme for use as a starting template for building custom themes. Uses SCSS and AutoPrefixr, HTML5 Boilerplate with Modernizr and Normalize.css, and Grunt for all processing tasks. Syncs changes across local development devices with BrowserSync. Tested up to WordPress 4.0 RC1.
 
-## Usage
+### Usage
 
 The theme is setup to use [Grunt](http://gruntjs.com/) to compile SCSS (with source maps), run it through [AutoPrefixr](https://github.com/ai/autoprefixer), lint, concatenate and minify JavaScript (with source maps), optimize images, and syncs changes across local development devices with [BrowserSync](https://github.com/shakyShane/browser-sync), with flexibility to add any additional tasks via the Gruntfile. Alternatively, you can use [CodeKit](http://incident57.com/codekit/) or whatever else you prefer to compile the SCSS and manage the JavaScript.
 
@@ -28,7 +32,7 @@ If you are using MAMP or Vagrant, change the `proxy` option in the `grunt browse
 
 To concatenate and minify your jQuery plugins, add them to the `assets/js/vendor` directory and add the `js` filename and path to the `Gruntfile` `uglify` task. Previous versions of the starter theme automatically pulled all plugins in the `vendor` directory, but this has changed to allow more granular control and for managing plugins and assets with bower.
 
-### Bower
+#### Bower
 
 Supports [bower](https://github.com/bower/bower) to install and manage JavaScript dependencies in the `assets/js/vendor` folder.
 
@@ -36,7 +40,7 @@ Supports [bower](https://github.com/bower/bower) to install and manage JavaScrip
 
 The theme includes deployments via [grunt-rsync](https://github.com/jedrichards/grunt-rsync). The Gruntfile includes setups for staging and production - edit your paths and host, then run `grunt deploy:staging` or `grunt deploy:production` to deploy your files via rsync.
 
-### Features
+#### Features
 
 1. Normalized stylesheet for cross-browser compatibility using Normalize.css version 3 (IE8+)
 2. Easy to customize
@@ -46,7 +50,7 @@ The theme includes deployments via [grunt-rsync](https://github.com/jedrichards/
 6. Grunt for processing all SASS, JavaScript and images, and cross-device refreshing with BrowserSync
 7. Much much more
 
-### Suggested Plugins
+#### Suggested Plugins
 
 * [WordPress SEO by Yoast](http://wordpress.org/extend/plugins/wordpress-seo/)
 * [Google Analytics for WordPress by Yoast](http://wordpress.org/extend/plugins/google-analytics-for-wordpress/)
@@ -56,16 +60,16 @@ The theme includes deployments via [grunt-rsync](https://github.com/jedrichards/
 
 ![dependencies](https://david-dm.org/mattbanks/WordPress-Starter-Theme.png)
 
-### Contributing:
+#### Contributing:
 
 Anyone and everyone is welcome to contribute! Check out the [Contributing Guidelines](CONTRIBUTING.md).
 
-### Contributors:
+#### Contributors:
 
 - [ddropik](https://github.com/ddropik)
 - [jjmu15](https://github.com/jjmu15)
 
-### Credits
+#### Credits
 
 Without these projects, this WordPress Starter Theme wouldn't be where it is today.
 

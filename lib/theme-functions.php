@@ -116,3 +116,93 @@ function mb_remove_more_jump_link( $link ) {
 	}
 	return $link;
 }
+
+/**
+ * A filter to wrap iframes in responsive divs
+ */
+function mb_div_wrapper($content) {
+  // match any iframes
+  $pattern = '~<iframe.*</iframe>|<embed.*</embed>~';
+  preg_match_all($pattern, $content, $matches);
+
+  foreach ($matches[0] as $match) {
+    // wrap matched iframe with div
+    $wrappedframe = '<div class="embed-responsive embed-responsive-16by9">' . $match . '</div>';
+
+    //replace original iframe with new in content
+    $content = str_replace($match, $wrappedframe, $content);
+  }
+
+  return $content;    
+}
+add_filter('the_content', 'mb_div_wrapper');
+
+/**
+ * Override WordPress' embed shortcode 
+ */
+function mb_embed_oembed_html($html, $url, $attr, $post_id) {
+  $ratio = strpos($attr['width'], 'by') > -1 ? $attr['width'] : "16by9";
+  return '<div class="embed-responsive embed-responsive-' . $ratio . '">' . $html . '</div>';
+}
+add_filter('embed_oembed_html', 'mb_embed_oembed_html', 99, 4);
+
+/**
+ * Add page slug to body class
+ */
+function mb_add_slug_body_class( $classes ) {
+	global $post;
+	if ( isset( $post ) ) {
+		$classes[] = $post->post_type . '-' . $post->post_name;
+	}
+	return $classes;
+}
+add_filter( 'body_class', 'mb_add_slug_body_class' );
+
+
+/*
+ * This is still work in progress, it is not activated yet
+ */
+
+//add shortcode button to the tinymce editor
+function _slventures_add_tinymce_media_button( $context ){
+return $context.=__("
+<a href=\"#TB_inline?width=480&inlineId=_slventures_shortcode_popup&width=640&height=513\" class=\"button thickbox\" id=\"my_shortcode_popup_button\" title=\"Custom Shortcodes\">Custom Shortcodes</a>");
+}
+add_action('admin_footer','my_shortcode_media_button_popup');
+//Generate inline content for the popup window when the "my shortcode" button is clicked
+function my_shortcode_media_button_popup(){
+?>
+  <div id="_slventures_shortcode_popup" style="display: none;">
+    <!--".wrap" class div is needed to make thickbox content look good-->
+    <div class="wrap">
+      <div>
+        <h2>Insert My Shortcode</h2>
+        <div class="my_shortcode_add">
+          <input type="text" id="id_of_textbox_user_typed_in"><button class="button-primary" id="id_of_button_clicked">Add Shortcode</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<?php
+}
+// add_action('media_buttons_context','_slventures_add_tinymce_media_button');
+
+//javascript code needed to make shortcode appear in TinyMCE edtor
+function _slventures_add_shortcode_to_editor(){
+?>
+<script>
+jQuery('#id_of_button_clicked ').on('click',function(){
+  var user_content = jQuery('#id_of_textbox_user_typed_in').val();
+  var shortcode = '[my_shortcode attributes="'+user_content+'"/]';
+  if( !tinyMCE.activeEditor || tinyMCE.activeEditor.isHidden()) {
+    jQuery('textarea#content').val(shortcode);
+  } else {
+    tinyMCE.execCommand('mceInsertContent', false, shortcode);
+  }
+  //close the thickbox after adding shortcode to editor
+  self.parent.tb_remove();
+});
+</script>
+<?php
+}
+// add_action('admin_footer','_slventures_add_shortcode_to_editor');
