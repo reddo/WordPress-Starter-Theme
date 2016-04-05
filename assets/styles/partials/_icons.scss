@@ -1,0 +1,53 @@
+/* ==========================================================================
+   Add classes from fontastic icons here; 
+   remember to replace the fonts in the /assets/fonts/fontastic folder and 
+   the font-family and font-name in the fontface mixin 
+   and the font-family in the 2 classes below it.
+   ========================================================================== */
+@charset "UTF-8";
+
+@include fontface('font-family', 'assets/fonts/fontastic', 'font-name'); // fontface($font-family, $font-url, $font-name);
+
+[data-icon]:before {
+	font-family: "font-family" !important; // replace font family here
+	content: attr(data-icon);
+	font-style: normal !important;
+	font-weight: normal !important;
+	font-variant: normal !important;
+	text-transform: none !important;
+	speak: none;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+[class^="fa-fi-"],
+[class*=" fa-fi-"] {
+	font-family: "font-family" !important; // replace font family here
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+// include the classes you get from the downloaded fontatic css
+
+.fa-fi-arrow-down:before {
+  content: "\e000";
+}
+.fa-fi-arrow-left:before {
+  content: "\e001";
+}
+.fa-fi-arrow-right:before {
+  content: "\e002";
+}
+.fa-fi-arrow-up:before {
+  content: "\e003";
+}
+.fa-fi-times:before {
+  content: "\e004";
+}
+.fa-fi-plus:before {
+  content: "\e005";
+}
+.fa-fi-minus:before {
+  content: "\e006";
+}

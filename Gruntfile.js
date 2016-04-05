@@ -15,10 +15,6 @@ module.exports = function(grunt) {
             js: {
                 files: '<%= jshint.all %>',
                 tasks: ['jshint', 'uglify']
-            },
-            images: {
-                files: ['assets/images/**/*.{png,jpg,gif}'],
-                tasks: ['imagemin']
             }
         },
 
@@ -29,8 +25,8 @@ module.exports = function(grunt) {
                     style: 'expanded',
                 },
                 files: {
-                    'assets/styles/build/style.css': 'assets/styles/style.scss',
-                    'assets/styles/build/editor-style.css': 'assets/styles/editor-style.scss'
+                    'assets/styles/build/style.css': 'assets/styles/style.scss' // ,
+                    // 'assets/styles/build/editor-style.css': 'assets/styles/editor-style.scss'
                 }
             }
         },
@@ -62,18 +58,6 @@ module.exports = function(grunt) {
             }
         },
 
-        // image sprites
-        sprite: {
-            all: {
-                src: 'assets/images/sprites/*.png',
-                dest: 'assets/images/spritesheet.png',
-                destCss: 'assets/styles/partials/_spritesheet.scss',
-                padding: 30,
-                cssFormat: 'css',
-                imgPath: 'assets/images/spritesheet.png'
-            }
-        },
-
         // javascript linting with jshint
         jshint: {
             options: {
@@ -97,8 +81,7 @@ module.exports = function(grunt) {
                 files: {
                     'assets/js/plugins.min.js': [
                         'assets/js/source/plugins.js',
-                        'assets/js/vendor/navigation.js',
-                        'assets/js/vendor/skip-link-focus-fix.js',
+                        'assets/js/vendor/bootstrap.js'
                         // 'assets/js/vendor/yourplugin/yourplugin.js',
                     ]
                 }
@@ -115,71 +98,11 @@ module.exports = function(grunt) {
                     ]
                 }
             }
-        },
-
-        // image optimization
-        imagemin: {
-            dist: {
-                options: {
-                    optimizationLevel: 7,
-                    progressive: true,
-                    interlaced: true
-                },
-                files: [{
-                    expand: true,
-                    cwd: 'assets/images/',
-                    src: ['**/*.{png,jpg,gif}'],
-                    dest: 'assets/images/'
-                }]
-            }
-        },
-
-        // browserSync
-        browserSync: {
-            dev: {
-                bsFiles: {
-                    src : ['style.css', 'assets/js/*.js', 'assets/images/**/*.{png,jpg,jpeg,gif,webp,svg}']
-                },
-                options: {
-                    proxy: "local.dev",
-                    watchTask: true,
-                    browser: "google chrome"
-                }
-            }
-        },
-
-        // deploy via rsync
-        deploy: {
-            options: {
-                src: "./",
-                args: ["--verbose"],
-                exclude: ['.git*', 'node_modules', '.sass-cache', 'Gruntfile.js', 'package.json', '.DS_Store', 'README.md', 'config.rb', '.jshintrc'],
-                recursive: true,
-                syncDestIgnoreExcl: true
-            },
-            staging: {
-                 options: {
-                    dest: "~/path/to/theme",
-                    host: "user@host.com"
-                }
-            },
-            production: {
-                options: {
-                    dest: "~/path/to/theme",
-                    host: "user@host.com"
-                }
-            }
         }
 
     });
 
-    // Load in `grunt-spritesmith`
-    grunt.loadNpmTasks('grunt-spritesmith');
-
-    // rename tasks
-    grunt.renameTask('rsync', 'deploy');
-
     // register task
-    grunt.registerTask('default', ['sass', 'autoprefixer', 'cssmin', 'uglify', 'imagemin', 'browserSync', 'watch']);
+    grunt.registerTask('default', ['sass', 'autoprefixer', 'cssmin', 'uglify', 'watch']);
 
 };

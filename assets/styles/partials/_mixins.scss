@@ -3,35 +3,56 @@
    ========================================================================== */
 
 /*
- * Mixin for easy media queries
- * @include bp(tablet) { SCSS here };
+ * Mixin to add a custom icon to any element
+ * @include custom-icon-font(font-family);
 */
-@mixin bp($point) {
-	@if $point == biggie {
-		@media (max-width : 1600px) { @content; }
-	}
-	@if $point == tablet {
-		@media (max-width : 1024px) { @content; }
-	}
-	@else if $point == phone {
-		@media (max-width : 768px) { @content; }
-	}
+
+@mixin custom-icon-font($fontFamily, $char) {
+  display: inline-block;
+  font-family: $fontFamily;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  content: $char;
 }
 
 /*
- * Mixin for clearfix
- * @include clearfix;
+ * Mixins for easy media queries; uses bootstrap's variables
+ * @include respond-to(tablet) { SCSS here };
+ * @include max-width(tablet) { SCSS here };
 */
-@mixin clearfix {
-	&:before,
-	&:after {
-	    content: " "; /* 1 */
-	    display: table; /* 2 */
+@mixin respond-to($media) {
+	@if $media == mobile {
+		@media (max-width: $screen-xs-max) { @content; }
 	}
+	@if $media == tablet {
+		@media (min-width: $screen-sm-min) { @content; }
+	}
+	@else if $media == desktop {
+		@media (min-width: $screen-md-min) { @content; }
+	}
+	@else if $media == lgdesktop {
+		@media (min-width: $screen-lg-min) {  @content; }
+	} 
+	@else if $media == xldesktop {
+		@media (min-width: 1440px) {  @content; }
+	}
+  @else {
+    @media (min-width: $media) {  @content; }
+  }
+}
 
-	&:after {
-	    clear: both;
+@mixin max-width($media) {
+	@if $media == tablet {
+		@media (max-width: $screen-sm-max) { @content; }
 	}
+	@else if $media == desktop {
+		@media (max-width: $screen-md-max) { @content; }
+	}
+  @else {
+    @media (max-width: $media) {  @content; }
+  }
 }
 
 /*
@@ -88,4 +109,108 @@
 			 url($font-url + '/' + $font-name + '.ttf')  format('truetype'),
 			 url($font-url + '/' + $font-name + '.svg#' + $font-name) format('svg');
 	}
+}
+
+/*
+ * Vertically center anything with transform
+ * @include vertical-align(absolute, true, false);
+ */
+
+@mixin vertical-align($position: relative, $center: false, $bottom: false) {
+  position: $position;
+
+  @if $center == true and $bottom == false {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  } @else if $center == false and $bottom == false {
+    top: 50%;
+    transform: translateY(-50%);
+  } @else if $center == true and $bottom != false {
+    bottom: $bottom;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+/*
+ * Mixin to style input placeholders
+ * @include custom-placeholder { SCSS here }
+ */
+
+@mixin custom-placeholder {
+  &::-webkit-input-placeholder {@content}
+  &:-moz-placeholder           {@content}
+  &::-moz-placeholder          {@content}
+  &:-ms-input-placeholder      {@content}  
+}
+
+/*
+ * Mixin for retina bg images
+ * @include background-image-retina(assets/images/image-name, jpg, 23px, 23px, false);
+ * no quotes for $width and $height
+ * retina image must be named image-name@2x.jpg
+ */
+
+@mixin background-image-retina($file, $type, $width, $height, $auto: false) {
+  background-image: url($file + '.' + $type);
+  @if $auto == true { 
+    background-size: auto;
+  }
+
+  @media only screen and (-webkit-min-device-pixel-ratio: 2),
+  only screen and (-moz-min-device-pixel-ratio: 2),
+  only screen and (-o-min-device-pixel-ratio: 2/1),
+  only screen and (min-device-pixel-ratio: 2),
+  only screen and (min-resolution: 192dpi),
+  only screen and (min-resolution: 2dppx){
+    background-image: url($file + '@2x.' + $type);
+    background-size: $width $height;
+  }
+
+  @if $width == cover { 
+    background-size: cover;
+
+    @media only screen and (-webkit-min-device-pixel-ratio: 2),
+    only screen and (-moz-min-device-pixel-ratio: 2),
+    only screen and (-o-min-device-pixel-ratio: 2/1),
+    only screen and (min-device-pixel-ratio: 2),
+    only screen and (min-resolution: 192dpi),
+    only screen and (min-resolution: 2dppx){
+      background-size: cover;
+    }
+  }
+}
+
+/*
+ * Mixin to tone down images to grayscale via css
+ * @include grayscale(on, 50);
+ */
+
+@mixin grayscale( $toggle: "on", $percentage: 1 ) {
+    $svg-type: "matrix";
+    $svg-value: "0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0";
+    $ie-alpha: alpha(#{"opacity="}round( $percentage * 100 ) );
+
+    @if $percentage != 1 {
+        $svg-type: "saturate";
+        $svg-value: $percentage;
+    }
+
+    @if $toggle == "on" {
+        filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'#{$svg-type}\' values=\'#{$svg-value}\'/></filter></svg>#grayscale"); // Firefox 10+, Firefox on Android
+        filter: gray $ie-alpha; // IE6-9
+        -webkit-filter: grayscale( round( $percentage * 100% ) ); // Chrome 19+, Safari 6+, Safari 6+ iOS
+        filter: grayscale( round( $percentage * 100% ) ); // Catch-all
+    }
+
+    @if $toggle == "off" {
+        @if $svg-type == "saturate" {
+            filter: none;
+        } @else {
+            filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 1 0\'/></filter></svg>#grayscale");
+        }
+        -webkit-filter: grayscale(0%);
+        filter: grayscale(0);
+    }
 }

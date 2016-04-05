@@ -14,24 +14,33 @@ Tags:
 This theme, like WordPress, is licensed under the GPL.
 Use it to make something cool, have fun, and share what you've learned with others.
 
- _mbbasetheme is based on Underscores http://underscores.me/, (C) 2012-2014 Automattic, Inc.
+Don't forget to update bootstrap's scss, 
+bootstrap's main js file in /js/vendor/bootstrap.js, 
+bootstrap's glyphicons and font-awesome's font-files in 
+/assets/fonts/bootstrap and respectively /assets/fonts/font-awesome folders
+and font-awesome's scss to their latest version before starting.
+
+Also do a search and replace all on the files in this template for 
+"_mbbasetheme" (without quotes, of course) to your preferred text domain.
+
+Last, but not least, change the Theme Name, -URI, -Author and description. These also can safely be deleted, except the Theme Name.
+
+_mbbasetheme is based on Underscores http://underscores.me/, (C) 2012-2016 Automattic, Inc.
 
 */
 
+@import "bootstrap";
+
 // Reset, Variables, Mixins, Etc
 // DO NOT EDIT ORDER OF FILES
-@import "partials/mixins";
 @import "partials/variables";
-@import "partials/normalize";
+@import "partials/mixins";
 
-// Globals
-@import "partials/h5bp-global";
-@import "partials/general";
-@import "partials/grid";
-@import "partials/spritesheet";
+@import "font-awesome/font-awesome";
+@import "partials/icons";
 
 // Layout
-@import "partials/layout";
+@import "partials/scaffolding";
 @import "partials/header";
 @import "partials/footer";
 
@@ -46,7 +55,6 @@ Use it to make something cool, have fun, and share what you've learned with othe
 // Widgets, Search, Comments, Forms, Sharing
 @import "partials/widgets";
 @import "partials/comments";
-@import "partials/forms";
 
 // Helper Classes, Print, Etc
 @import "partials/helpers";
