@@ -24,8 +24,10 @@ function _mbbasetheme_customize_preview_js() {
 	wp_enqueue_script( '_mbbasetheme_customizer', get_template_directory_uri() . 'assets/js/vendor/customizer.js', array( 'customize-preview' ), '20130508', true );
 }
 add_action( 'customize_preview_init', '_mbbasetheme_customize_preview_js' );
+
 /**
  * Add some custom options to customizer
+ * More info and a comprehensive guide here: http://themefoundation.com/wordpress-theme-customizer/
  */
 function _mbbasetheme_theme_customizer( $wp_customize ) {
   /**
@@ -46,6 +48,7 @@ function _mbbasetheme_theme_customizer( $wp_customize ) {
 
   /**
    * Add support for site logo to customizer
+   * usage: <?php echo get_theme_mod( '_mbbasetheme_logo' );  ?>
    */
   $wp_customize->add_section( '_mbbasetheme_logo_section' , array(
       'title'       => __( 'Logo', '_mbbasetheme' ),
@@ -63,6 +66,7 @@ function _mbbasetheme_theme_customizer( $wp_customize ) {
 
   /**
    * Add support for social links and other contact info info to customizer
+   * usage: <?php echo get_theme_mod( '_mbbasetheme_facebook_textbox' );  ?>
    */
   $wp_customize->add_section( '_mbbasetheme_contact_info_section', array(
       'title' => __( 'Contact Info Section', '_mbbasetheme' ),
@@ -132,6 +136,7 @@ function _mbbasetheme_theme_customizer( $wp_customize ) {
 
   /**
    * Add support for custom footer info to customizer
+   * usage: <?php echo get_theme_mod( '_mbbasetheme_copyright_textbox' );  ?>
    */
   $wp_customize->add_section( '_mbbasetheme_footer_section', array(
       'title' => __( 'Footer Copyright Section', '_mbbasetheme' ),
