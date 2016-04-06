@@ -49,7 +49,7 @@ function _mbbasetheme_setup() {
 	add_action( 'widgets_init', 'mb_widgets_init' );
 
 	// Execute shortcodes in widgets
-	// add_filter('widget_text', 'do_shortcode');
+	add_filter('widget_text', 'do_shortcode');
 
 	// Add Editor Style
 	add_editor_style();
@@ -94,9 +94,9 @@ function _mbbasetheme_setup() {
 	) );
 
 	// Enable support for Post Formats.
-	add_theme_support( 'post-formats', array(
-		'aside', 'image', 'video', 'quote', 'link',
-	) );
+	// add_theme_support( 'post-formats', array(
+	// 	'aside', 'image', 'video', 'quote', 'link',
+	// ) );
 
 	// Enqueue scripts
 	// Function location: /lib/theme-functions.php
@@ -110,6 +110,29 @@ function _mbbasetheme_setup() {
 	// Remove Read More Jump
 	// Function location: /lib/theme-functions.php
 	add_filter( 'the_content_more_link', 'mb_remove_more_jump_link' );
+
+	// Wrap iframes in responsive divs
+	// Function location: /lib/theme-functions.php
+	add_filter('the_content', 'mb_div_wrapper');
+
+	// Override WordPress' embed shortcode 
+	// Function location: /lib/theme-functions.php
+	add_filter('embed_oembed_html', 'mb_embed_oembed_html', 99, 4);
+
+	// Add page slug to body class
+	// Function location: /lib/theme-functions.php
+	add_filter( 'body_class', 'mb_add_slug_body_class' );
+	
+	// Adds shortcode button above tinymce editor
+	// add_action('admin_footer','mb_shortcode_media_button_popup');
+
+	// Generate inline content for the popup window when the "my shortcode" button is clicked
+	// Function location: /lib/theme-functions.php
+	// add_action('media_buttons_context','mb_add_tinymce_media_button');
+
+	// Adds javascript code needed to make shortcode appear in TinyMCE editor
+	// Function location: /lib/theme-functions.php
+	// add_action('admin_footer','mb_add_shortcode_to_editor');
 
 }
 endif; // _mbbasetheme_setup

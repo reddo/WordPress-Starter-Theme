@@ -26,7 +26,8 @@ module.exports = function(grunt) {
                 },
                 files: {
                     'assets/styles/build/style.css': 'assets/styles/style.scss' // ,
-                    // 'assets/styles/build/editor-style.css': 'assets/styles/editor-style.scss'
+                    // 'assets/styles/build/editor-style.css': 'assets/styles/editor-style.scss',
+                    // 'assets/styles/build/admin-style.css': 'assets/styles/admin-style.scss'
                 }
             }
         },

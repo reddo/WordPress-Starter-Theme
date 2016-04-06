@@ -118,7 +118,7 @@ function mb_remove_more_jump_link( $link ) {
 }
 
 /**
- * A filter to wrap iframes in responsive divs
+ * Wrap iframes in responsive divs
  */
 function mb_div_wrapper($content) {
   // match any iframes
@@ -135,7 +135,6 @@ function mb_div_wrapper($content) {
 
   return $content;    
 }
-add_filter('the_content', 'mb_div_wrapper');
 
 /**
  * Override WordPress' embed shortcode 
@@ -144,7 +143,6 @@ function mb_embed_oembed_html($html, $url, $attr, $post_id) {
   $ratio = strpos($attr['width'], 'by') > -1 ? $attr['width'] : "16by9";
   return '<div class="embed-responsive embed-responsive-' . $ratio . '">' . $html . '</div>';
 }
-add_filter('embed_oembed_html', 'mb_embed_oembed_html', 99, 4);
 
 /**
  * Add page slug to body class
@@ -156,53 +154,106 @@ function mb_add_slug_body_class( $classes ) {
 	}
 	return $classes;
 }
-add_filter( 'body_class', 'mb_add_slug_body_class' );
-
 
 /*
- * This is still work in progress, it is not activated yet
+ * This is still work in progress, it is not activated yet - Activate from /lib/init.php
+ * Adds shortcode button above tinymce editor
  */
-
-//add shortcode button to the tinymce editor
-function _slventures_add_tinymce_media_button( $context ){
-return $context.=__("
-<a href=\"#TB_inline?width=480&inlineId=_slventures_shortcode_popup&width=640&height=513\" class=\"button thickbox\" id=\"my_shortcode_popup_button\" title=\"Custom Shortcodes\">Custom Shortcodes</a>");
+function mb_add_tinymce_media_button( $context ){
+return $context.= "
+	<a href=\"#TB_inline?width=360&inlineId=mb_shortcode_popup&width=500&height=513\" class=\"button thickbox\" id=\"mb_shortcode_popup_button\" title=\"Custom Shortcodes\"><span class=\"dashicons dashicons-format-status\"></span>" . __('Custom Shortcodes', '_mbbasetheme') . "</a>";
 }
-add_action('admin_footer','my_shortcode_media_button_popup');
-//Generate inline content for the popup window when the "my shortcode" button is clicked
-function my_shortcode_media_button_popup(){
+
+/*
+ * This is still work in progress, it is not activated yet - Activate from /lib/init.php
+ * Generate inline content for the popup window when the "my shortcode" button is clicked
+ */
+function mb_shortcode_media_button_popup(){
 ?>
-  <div id="_slventures_shortcode_popup" style="display: none;">
+  <div id="mb_shortcode_popup" style="display:none;">
     <!--".wrap" class div is needed to make thickbox content look good-->
-    <div class="wrap">
-      <div>
-        <h2>Insert My Shortcode</h2>
-        <div class="my_shortcode_add">
-          <input type="text" id="id_of_textbox_user_typed_in"><button class="button-primary" id="id_of_button_clicked">Add Shortcode</button>
+    <div id="shortcode_popup_inner" class="wrap">
+      <div class="shortcode-date">
+        <h2>Insert [date] Shortcode</h2>
+        <p>More information on the availabale formats <a href="http://php.net/manual/en/function.date.php" target="_blank">here</a></p>
+        <div class="shortcode-wrap" data-shortcode="date" data-self-closing="true" data-attributes="format">
+          <input type="text" class="regular-text format-value" placeholder="format"><br>
+          <button class="button-primary">Insert</button>
+        </div>
+      </div>
+      <div class="shortcode-bloginfo">
+        <h2>Insert [bloginfo] Shortcode</h2>
+        <p>More information on the availabale values <a href="https://developer.wordpress.org/reference/functions/bloginfo/" target="_blank">here</a></p>
+        <div class="shortcode-wrap" data-shortcode="bloginfo" data-self-closing="true" data-attributes="show">
+          <select class="show-value">
+          	<option value="">Select value to be shown</option>
+          	<option value="name">name</option>
+						<option value="description">description</option>
+						<option value="wpurl">wpurl</option>
+						<option value="url">url</option>
+						<option value="admin_email">admin_email</option>
+						<option value="charset">charset</option>
+						<option value="version">version</option>
+						<option value="html_type">html_type</option>
+						<option value="text_direction">text_direction</option>
+						<option value="language">language</option>
+						<option value="stylesheet_url">stylesheet_url</option>
+						<option value="stylesheet_directory">stylesheet_directory</option>
+						<option value="template_url">template_url</option>
+						<option value="pingback_url">pingback_url</option>
+						<option value="atom_url">atom_url</option>
+						<option value="rdf_url">rdf_url</option>
+						<option value="rss_url">rss_url</option>
+						<option value="rss2_url">rss2_url</option>
+						<option value="comments_atom_url">comments_atom_url</option>
+						<option value="comments_rss2_url">comments_rss2_url</option>
+					</select><br>
+          <button class="button-primary">Insert</button>
+        </div>
+      </div>
+      <div class="shortcode-read-more">
+        <h2>Insert [read-more] Shortcode</h2>
+        <div class="shortcode-wrap" data-shortcode="read-more" data-attributes="xclass,btn-text">
+          <input type="text" class="regular-text xclass-value" placeholder="xclass"><br>
+          <input type="text" class="regular-text btn-text-value" placeholder="btn-text (default: <?php _e( 'Discover More', '_quartermoore' ) ?>)"><br>
+          <button class="button-primary">Insert</button>
         </div>
       </div>
     </div>
   </div>
 <?php
 }
-// add_action('media_buttons_context','_slventures_add_tinymce_media_button');
 
-//javascript code needed to make shortcode appear in TinyMCE edtor
-function _slventures_add_shortcode_to_editor(){
+/*
+ * This is still work in progress, it is not activated yet - Activate from /lib/init.php
+ * Adds javascript code needed to make shortcode appear in TinyMCE editor
+ */
+function mb_add_shortcode_to_editor(){
 ?>
 <script>
-jQuery('#id_of_button_clicked ').on('click',function(){
-  var user_content = jQuery('#id_of_textbox_user_typed_in').val();
-  var shortcode = '[my_shortcode attributes="'+user_content+'"/]';
-  if( !tinyMCE.activeEditor || tinyMCE.activeEditor.isHidden()) {
-    jQuery('textarea#content').val(shortcode);
-  } else {
-    tinyMCE.execCommand('mceInsertContent', false, shortcode);
-  }
-  //close the thickbox after adding shortcode to editor
-  self.parent.tb_remove();
-});
+	jQuery('#shortcode_popup_inner ').on('click', 'button', function(){
+		var self = this;
+
+	  var $shortcodeWrap = jQuery(self).parents('.shortcode-wrap');
+	  var shortcode = $shortcodeWrap.data('shortcode');
+	  var attributes = $shortcodeWrap.data('attributes').split(',');
+	  var attrList = '';
+
+	  jQuery.each(attributes, function( index, value ) {
+	  	var inputClass = '.' + value + '-value';
+	  	var attrVal = jQuery(self).siblings(inputClass).val();
+		  attrList += attrVal !== '' ? ' ' + value + '="' + attrVal + '"' : '';
+		});
+
+	  var selfClosing = $shortcodeWrap.data('self-closing') ? ']' : '][/' + shortcode + ']';
+
+	  var codeToAdd = '[' + shortcode + attrList + selfClosing;
+
+    var win = window.dialogArguments || opener || parent || top;
+    win.send_to_editor(codeToAdd);
+	  //empty the text field and close the thickbox after adding shortcode to editor
+	  jQuery(self).siblings('input, select').val('');
+	});
 </script>
 <?php
 }
-// add_action('admin_footer','_slventures_add_shortcode_to_editor');
