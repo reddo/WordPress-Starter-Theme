@@ -123,16 +123,15 @@ function _mbbasetheme_setup() {
 	// Function location: /lib/theme-functions.php
 	add_filter( 'body_class', 'mb_add_slug_body_class' );
 	
-	// Adds shortcode button above tinymce editor
-	// add_action('admin_footer','mb_shortcode_media_button_popup');
+	/**
+	 * If Shortcake is active, initialize shortcodes
+	 */
+	add_action( 'init', 'mb_shortcode_ui_detection' );
 
-	// Generate inline content for the popup window when the "my shortcode" button is clicked
-	// Function location: /lib/theme-functions.php
-	// add_action('media_buttons_context','mb_add_tinymce_media_button');
-
-	// Adds javascript code needed to make shortcode appear in TinyMCE editor
-	// Function location: /lib/theme-functions.php
-	// add_action('admin_footer','mb_add_shortcode_to_editor');
+	/**
+	 * Add shortcodes to be usable from shortcake
+	 */
+	add_action( 'register_shortcode_ui', '_slventures_shortcode_ui' );
 
 }
 endif; // _mbbasetheme_setup
