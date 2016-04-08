@@ -156,20 +156,6 @@ function mb_add_slug_body_class( $classes ) {
 }
 
 /**
- * If Shortcake is active, initialize shortcodes
- */
-function mb_shortcode_ui_detection() {
-	if ( !function_exists( 'shortcode_ui_register_for_shortcode' ) ) {
-		add_action( 'admin_notices', 'mb_shortcode_ui_dev_example_notices' );
-	}
-}
-function mb_shortcode_ui_dev_example_notices() {
-	if ( current_user_can( 'activate_plugins' ) ) {
-		echo '<div class="error message"><p>Shortcode UI plugin must be active for Shortcode UI Example plugin to function.</p></div>';
-	}
-}
-
-/**
  * Add shortcodes to be usable from shortcake
  */
 function _mbbasetheme_shortcode_ui() {

@@ -57,7 +57,7 @@ Require Plugins
 require get_template_directory() . '/lib/class-tgm-plugin-activation.php';
 require get_template_directory() . '/lib/theme-require-plugins.php';
 
-// add_action( 'tgmpa_register', 'mb_register_required_plugins' );
+add_action( 'tgmpa_register', 'mb_register_required_plugins' );
 
 
 /****************************************

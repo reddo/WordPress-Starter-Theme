@@ -124,15 +124,18 @@ function _mbbasetheme_setup() {
 	add_filter( 'body_class', 'mb_add_slug_body_class' );
 	
 	/**
-	 * If Shortcake is active, initialize shortcodes
+	 * If Shortcake is active, add shortcodes to be usable from shortcake
 	 */
 	add_action( 'init', 'mb_shortcode_ui_detection' );
 
 	/**
-	 * Add shortcodes to be usable from shortcake
+	 * If Shortcake is active, initialize shortcodes
 	 */
-	add_action( 'register_shortcode_ui', '_slventures_shortcode_ui' );
-
+	function mb_shortcode_ui_detection() {
+		if ( function_exists( 'shortcode_ui_register_for_shortcode' ) ) {
+			add_action( 'register_shortcode_ui', '_mbbasetheme_shortcode_ui' );
+		}
+	}
 }
 endif; // _mbbasetheme_setup
 
