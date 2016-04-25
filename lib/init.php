@@ -59,6 +59,9 @@ function _mbbasetheme_setup() {
 		define( 'DISALLOW_FILE_EDIT', true );
 	}
 
+	// Enable support for custom logo for the site
+	add_theme_support( 'custom-logo' );
+
 	// Enable support for Post Thumbnails on posts and pages.
 	add_theme_support( 'post-thumbnails' );
 

@@ -49,20 +49,21 @@ function _mbbasetheme_theme_customizer( $wp_customize ) {
   /**
    * Add support for site logo to customizer
    * usage: <?php echo get_theme_mod( '_mbbasetheme_logo' );  ?>
+   * WP 4.5 introduced Theme Logo support @link {https://codex.wordpress.org/Theme_Logo}. This is obsolete.
    */
-  $wp_customize->add_section( '_mbbasetheme_logo_section' , array(
-      'title'       => __( 'Logo', '_mbbasetheme' ),
-      'priority'    => 30,
-      'description' => __( 'Upload a logo to replace the default site name in the header', '_mbbasetheme' )
-  ) );
-  $wp_customize->add_setting( '_mbbasetheme_logo', array(
-    'sanitize_callback' => 'esc_url_raw'
-  ) );
-  $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, '_mbbasetheme_logo', array(
-    'label'    => __( 'Logo', '_mbbasetheme' ),
-    'section'  => '_mbbasetheme_logo_section',
-    'settings' => '_mbbasetheme_logo'
-  ) ) );
+  // $wp_customize->add_section( '_mbbasetheme_logo_section' , array(
+  //     'title'       => __( 'Logo', '_mbbasetheme' ),
+  //     'priority'    => 30,
+  //     'description' => __( 'Upload a logo to replace the default site name in the header', '_mbbasetheme' )
+  // ) );
+  // $wp_customize->add_setting( '_mbbasetheme_logo', array(
+  //   'sanitize_callback' => 'esc_url_raw'
+  // ) );
+  // $wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, '_mbbasetheme_logo', array(
+  //   'label'    => __( 'Logo', '_mbbasetheme' ),
+  //   'section'  => '_mbbasetheme_logo_section',
+  //   'settings' => '_mbbasetheme_logo'
+  // ) ) );
 
   /**
    * Add support for social links and other contact info info to customizer

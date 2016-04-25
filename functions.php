@@ -27,7 +27,7 @@ require get_template_directory() . '/lib/theme-helpers.php';
 /**
  * Implement the Custom Header feature.
  */
-//require get_template_directory() . '/lib/inc/custom-header.php';
+// require get_template_directory() . '/lib/inc/custom-header.php';
 
 /**
  * Custom template tags for this theme.

@@ -14,6 +14,6 @@
 
   // $(document).on('wpcf7:submit', function () {});
 
-  // all Javascript code goes here
+	// all Javascript code goes here
 
 })(jQuery);
