@@ -23,23 +23,29 @@ and font-awesome's scss to their latest version before starting.
 Also do a search and replace all on the files in this template for 
 "_mbbasetheme" (without quotes, of course) to your preferred text domain.
 
+To override any of Bootstrap's or Font-Awesome's variables, 
+it's enough to copy the variable to partials/_variables.scss and remove the !default from them.
+There already are some overrides, feel free to add/remove as needed.
+
 Last, but not least, change the Theme Name, -URI, -Author and description. These also can safely be deleted, except the Theme Name.
 
 _mbbasetheme is based on Underscores http://underscores.me/, (C) 2012-2016 Automattic, Inc.
 
 */
 
-@import "bootstrap";
-
-// Reset, Variables, Mixins, Etc
-// DO NOT EDIT ORDER OF FILES
+// variable overrides for BS and FA (among others).
 @import "partials/variables";
-@import "partials/mixins";
 
+@import "bootstrap";
 @import "font-awesome/font-awesome";
+
+// Reset, Mixins, Etc
+// DO NOT EDIT ORDER OF FILES
+@import "partials/mixins";
 @import "partials/icons";
 
 // Layout
+@import "partials/helpers";
 @import "partials/scaffolding";
 @import "partials/header";
 @import "partials/footer";
@@ -56,6 +62,5 @@ _mbbasetheme is based on Underscores http://underscores.me/, (C) 2012-2016 Autom
 @import "partials/widgets";
 @import "partials/comments";
 
-// Helper Classes, Print, Etc
-@import "partials/helpers";
+// Print
 @import "partials/print";
