@@ -31,7 +31,11 @@ get_header(); ?>
 
 			<?php endwhile; ?>
 
-			<?php _mbbasetheme_paging_nav(); ?>
+			<?php 
+				if ( function_exists( '_RxWikiTD_bs_paging_nav' ) ){
+	        _mbbasetheme_bs_paging_nav();
+				}
+			?>
 
 		<?php else : ?>
 

@@ -35,6 +35,58 @@ function _mbbasetheme_paging_nav() {
 }
 endif;
 
+if ( ! function_exists( '_mbbasetheme_bs_paging_nav' ) ) :
+	/**
+	 * Display bootstrap navigation to next/previous set of posts when applicable.
+	 */
+	function _mbbasetheme_bs_paging_nav($pages = '', $range = 4) {  
+
+		$showitems = ($range * 2) + 1;  
+		global $paged;
+		if(empty($paged)) $paged = 1;
+		if($pages == '') {
+		  global $wp_query; 
+				$pages = $wp_query->max_num_pages;
+		  if(!$pages) {
+		  	$pages = 1;
+		  }
+		}
+
+		if( 1 != $pages ) : ?>
+			<nav class="navigation paging-navigation" role="navigation">
+  			<ul class="pagination">
+  				<li class="disabled hidden-xs"><span aria-hidden="true"><?php _e( 'Page', '_RxWikiTD' ) ?> <?php echo $paged; ?> of <?php echo $pages; ?></span></li>
+
+  			<?php if ( $paged > 2 && $paged > $range+1 && $showitems < $pages ) : ?>
+  				<li><a href="<?php the_pagenum_link(1); ?>" aria-label="<?php _e( 'First', '_RxWikiTD' ) ?>">&laquo;<span class='hidden-xs'> <?php _e( 'First', '_RxWikiTD' ) ?></span></a></li>
+  			<?php endif; ?>
+
+  			<?php if ( $paged > 1 && $showitems < $pages ) : ?>
+  				<li><a href="<?php the_get_pagenum_link($paged - 1); ?>" aria-label="<?php _e( 'Previous', '_RxWikiTD' ) ?>">&lsaquo;<span class='hidden-xs'> <?php _e( 'Previous', '_RxWikiTD' ) ?></span></a></li>
+  			<?php endif; ?>
+
+		    <?php for ( $i=1; $i <= $pages; $i++ ) {
+		    	if (1 != $pages &&( !( $i >= $paged+$range+1 || $i <= $paged-$range-1 ) || $pages <= $showitems ) ) {
+		    		echo ($paged == $i) ? '
+  				<li class="active"><span>' . $i . ' <span class="sr-only">' . __( '(current)', '_RxWikiTD' ) . '</span></span></li>' : '
+  				<li><a href=" ' . get_pagenum_link($i) . '">' . $i . '</a></li>';
+		    	}
+		    } ?>
+
+  			<?php if ( $paged < $pages && $showitems < $pages ) : ?>
+  				<li><a href="<?php the_pagenum_link($paged + 1); ?>"  aria-label="<?php _e( 'Next', '_RxWikiTD' ) ?>"><span class='hidden-xs'><?php _e( 'Next', '_RxWikiTD' ) ?> </span>&rsaquo;</a></li>
+  			<?php endif; ?>
+
+  			<?php if ( $paged < $pages-1 &&  $paged+$range-1 < $pages && $showitems < $pages ) : ?>
+  				<li><a href="<?php the_pagenum_link($pages); ?>" aria-label="<?php _e( 'Last', '_RxWikiTD' ) ?>"><span class='hidden-xs'><?php _e( 'Last', '_RxWikiTD' ) ?> </span>&raquo;</a></li>
+  			<?php endif; ?>
+  			</ul>
+  		</nav>
+<?php
+	  endif;
+	}
+endif;
+
 if ( ! function_exists( '_mbbasetheme_post_nav' ) ) :
 /**
  * Display navigation to next/previous post when applicable.
